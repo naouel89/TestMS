@@ -1,0 +1,146 @@
+.image-container {
+  width: 200%;
+}
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+}
+
+
+.search-image {
+  width: 100%;
+  height: auto;
+}
+
+.text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Aligner les éléments verticalement */
+  text-align: center;
+}
+.text-container h1 {
+  color: #ff0000; /* Couleur du titre h1 */
+}
+
+.text-container p {
+  color: #ffffff; /* Couleur du paragraphe */
+}
+
+.links a {
+  color: #ffffff; /* Couleur des liens */
+}
+
+.search-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.search-overlay input[type="text"],
+.search-overlay button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.logo {
+  width: 50px;
+}
+/* Styles pour la section de parallaxe */
+.parallax-container {
+  position: relative;
+  height: 400px; /* Ajustez la hauteur selon vos besoins */
+  overflow: hidden;
+}
+
+.parallax {
+  background-image: url(images_the_district/bg.jpg);
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5; /* Ajustez l'opacité selon vos besoins */
+  z-index: -1;
+}
+
+/* Styles pour les catégories */
+.category-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px; /* Ajustez la marge selon vos besoins */
+  margin-bottom: 50px;
+
+}
+
+
+.category {
+  text-align: center;
+  margin: 0 10px; /* Ajustez la marge selon vos besoins */
+}
+
+.category a {
+  display: block;
+  text-decoration: none;
+}
+
+.category img {
+  width: 200px; /* Ajustez la taille de l'image selon vos besoins */
+  height: 200px;
+  margin-bottom: 10px; /* Ajustez la marge selon vos besoins */
+  border-radius: 35px;
+}
+
+.category h3 {
+  font-size: 18px; /* Ajustez la taille de police selon vos besoins */
+  margin: 0;
+
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 200px;
+  height: 100px; /* Ajustez la hauteur selon vos besoins */
+  background-color: #f1f1f1; /* Couleur de fond du footer */
+}
+
+.img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo2 {
+  margin: 0; /* Réinitialiser les marges pour l'image */
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+}
+
+.links li {
+  margin: 0 10px;
+}
+
+.links a {
+  text-decoration: none;
+}
