@@ -53,19 +53,25 @@
   margin-bottom: 10px;
 }
 .logo {
-  position: absolute;
-  margin-top: 25%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 4;
+  width: 200px;
+  height: 200px;
+  animation: rotation 3.5s infinite linear;
 }
-/* Styles pour la section de parallaxe */
+
+@keyframes rotation {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+  }
+}les pour la section de parallaxe */
 .parallax-container {
   position: relative;
   height: 400px; /* Ajustez la hauteur selon vos besoins */
   overflow: hidden;
 }
+
 
 .parallax {
   background-image: url(images_the_district/bg.jpg);
@@ -93,26 +99,33 @@
 
 .category {
   text-align: center;
-  margin: 0 10px; /* Ajustez la marge selon vos besoins */
+  margin: 0 10px;
+  perspective: 800px; /* Définit la perspective de l'effet 3D */
+}
+
+.category:hover {
+  transform: rotateY(45deg); /* Définit la rotation lors du survol de la catégorie */
 }
 
 .category a {
   display: block;
   text-decoration: none;
+  transition: transform 0.8s ease; /* Ajoute une transition fluide lors du survol */
 }
 
 .category img {
-  width: 200px; /* Ajustez la taille de l'image selon vos besoins */
+  width: 200px;
   height: 200px;
-  margin-bottom: 10px; /* Ajustez la marge selon vos besoins */
+  margin-bottom: 10px;
   border-radius: 35px;
+  transform-origin: center center; /* Définit le point d'origine de la transformation */
 }
 
 .category h3 {
-  font-size: 18px; /* Ajustez la taille de police selon vos besoins */
+  font-size: 18px;
   margin: 0;
-
 }
+
 .nav {
   display: flex;
   justify-content: center;
@@ -130,21 +143,35 @@
 }
 footer {
   position: relative;
-  bottom: 0;
-  left: 0;
+}
+
+#carouselExampleAutoplaying {
+  position: relative;
+}
+
+.carousel-item img {
   width: 100%;
+  height: auto;
+}
+
+.Social {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-top: 200px;
-  height: 100px; /* Ajustez la hauteur selon vos besoins */
-  background-color: #ffffff; /* Couleur de fond du footer */
+  justify-content: center;
 }
 
-.logo2 {
-  margin: 0; /* Réinitialiser les marges pour l'image */
+.Social a {
+  margin: 0 100px;
 }
 
+.Social i {
+  font-size: 150px;
+  color: #ed333b;
+}
 
 .image-3d {
   transform-style: preserve-3d;
