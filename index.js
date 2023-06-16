@@ -1,41 +1,76 @@
-const panierListe = document.getElementById('panier-liste');
-let total = 0;
+var cartItems = [];
 
-function ajouterAuPanier(nomPlat, prixPlat) {
-  const quantite = 1;
-  ajouterAuPanierCustom(nomPlat, prixPlat, quantite);
-}
+// Gérer l'ajout au panier
+document.getElementById('add-to-cart').addEventListener('click', function() {
+  var product = {
+    name: 'Nom du produit',
+    price: 'X'
+  };
 
-function ajouterAuPanierCustom() {
-  const selectPlat = document.getElementById('choix');
-  const quantiteInput = document.getElementById('quantite');
+  cartItems.push(product);
+  updateCart(); // Mettre à jour l'affichage du panier
+});
 
-  const nomPlat = selectPlat.value;
-  const prixPlat = parseFloat(selectPlat.options[selectPlat.selectedIndex].text.split('-')[1]);
-  const quantite = parseInt(quantiteInput.value);
+// Gérer la suppression d'un article du panier
+document.getElementById('cart-items').addEventListener('click', function(event) {
+  if (event.target.classList.contains('remove-btn')) {
+    var index = event.target.getAttribute('data-index');
+    cartItems.splice(index, 1);
+    updateCart(); // Mettre à jour l'affichage du panier
+  }
+});
 
-  const montant = prixPlat * quantite;
-  total += montant;
+// Gérer la suppression de tous les articles du panier
+document.getElementById('clear-cart').addEventListener('click', function() {
+  cartItems = [];
+  updateCart(); // Mettre à jour l'affichage du panier
+});
 
-  const panierItem = document.createElement('li');
-  panierItem.textContent = `${nomPlat} - ${prixPlat}$ x ${quantite} = ${montant}$`;
+// Gérer l'annulation de la commande
+document.getElementById('cancel-order').addEventListener('click', function() {
+  cartItems = [];
+  updateCart(); // Mettre à jour l'affichage du panier
+});
 
-  panierListe.appendChild(panierItem);
+// Gérer le clic sur le bouton de paiement
+document.getElementById('checkout-btn').addEventListener('click', function() {
+  // Ouvrir la fenêtre modale des modalités de paiement
+  document.getElementById('payment-modal').style.display = 'block';
+});
 
-  document.getElementById('total').textContent = `Total: ${total}$`;
+// Gérer la soumission du formulaire de paiement
+document.getElementById('confirm-payment-btn').addEventListener('click', function() {
+  var name = document.getElementById('name').value;
+  var address = document.getElementById('address').value;
+  var phone = document.getElementById('phone').value;
 
-  quantiteInput.value = 1;
-  selectPlat.selectedIndex = 0;
-}
+  // Effectuer un traitement supplémentaire ou envoyer les données au serveur
 
-function validerCommande() {
-  // Logique pour valider la commande (côté serveur)
-  alert('Commande validée !');
-}
+  // Réinitialiser le formulaire de paiement
+  document.getElementById('payment-form').reset();
 
-function annulerCommande() {
-  // Logique pour annuler la commande (côté client)
-  panierListe.innerHTML = '';
-  total = 0;
-  document.getElementById('total').textContent = 'Total: 0$';
+  // Fermer la fenêtre modale des modalités de paiement
+  document.getElementById('payment-modal').style.display = 'none';
+
+  // Afficher la fenêtre modale de validation de la commande
+  document.getElementById('validation-modal').style.display = 'block';
+});
+
+// Mettre à jour l'affichage du panier
+function updateCart() {
+  var cartItemsElement = document.getElementById('cart-items');
+  cartItemsElement.innerHTML = '';
+
+  for (var i = 0; i < cartItems.length; i++) {
+    var item = cartItems[i];
+
+    var listItem = document.createElement('li');
+    listItem.className = 'list-group-item cart-item';
+    listItem.innerHTML = `
+      <span>${item.name} - $${item.price}</span>
+      <button class="btn btn-link remove-btn" data-index="${i}">Supprimer</button>
+    `;
+
+    cartItemsElement.appendChild(listItem);
+  }
 }
