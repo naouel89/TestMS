@@ -169,3 +169,68 @@ footer {
 .image-3d:hover {
   transform: rotateY(45deg);
 }
+
+/* effet de zoom sur la page home */
+.featured-item {
+  transition: transform 0.3s;
+}
+
+.featured-item:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+/* commande */
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.featured-item {
+  text-align: center;
+}
+
+.btn {
+  display: block;
+  margin: 10px auto;
+}
+
+.commande-section {
+  background-color: #f8f8f8;
+  padding: 40px 0;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-select,
+.form-control {
+  width: 100%;
+  padding: 5px;
+}
+
+#panier {
+  margin-top: 40px;
+}
+
+#panier-liste {
+  list-style-type: none;
+  padding: 0;
+}
+
+#total {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#information-paiement {
+  margin-top: 40px;
+}
