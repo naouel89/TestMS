@@ -1,76 +1,94 @@
-var cartItems = [];
+// Récupération des éléments HTML
+const productCheckboxes = document.querySelectorAll('.product-checkbox');
+const addToCartButton = document.querySelector('.add-to-cart');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartTotal = document.getElementById('cart-total');
+const paymentModal = document.getElementById('payment-modal');
+const paymentForm = document.getElementById('payment-form');
+const confirmPaymentButton = document.getElementById('confirm-payment-btn');
+const validationModal = document.getElementById('validation-modal');
+const customerNameSpan = document.getElementById('customer-name');
+const customerPhoneSpan = document.getElementById('customer-phone');
+const customerEmailSpan = document.getElementById('customer-email');
+const customerAddressSpan = document.getElementById('customer-address');
+const paymentMethodSpan = document.getElementById('payment-method');
+const cardNumberSpan = document.getElementById('card-number');
 
-// Gérer l'ajout au panier
-document.getElementById('add-to-cart').addEventListener('click', function() {
-  var product = {
-    name: 'Nom du produit',
-    price: 'X'
-  };
+// Écouteur d'événement pour le bouton "Ajouter les produits sélectionnés au panier"
+addToCartButton.addEventListener('click', () => {
+  const selectedProducts = Array.from(productCheckboxes)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.parentNode);
 
-  cartItems.push(product);
-  updateCart(); // Mettre à jour l'affichage du panier
-});
-
-// Gérer la suppression d'un article du panier
-document.getElementById('cart-items').addEventListener('click', function(event) {
-  if (event.target.classList.contains('remove-btn')) {
-    var index = event.target.getAttribute('data-index');
-    cartItems.splice(index, 1);
-    updateCart(); // Mettre à jour l'affichage du panier
+  if (selectedProducts.length === 0) {
+    alert('Veuillez sélectionner au moins un produit.');
+    return;
   }
-});
 
-// Gérer la suppression de tous les articles du panier
-document.getElementById('clear-cart').addEventListener('click', function() {
-  cartItems = [];
-  updateCart(); // Mettre à jour l'affichage du panier
-});
+  cartItemsContainer.innerHTML = '';
+  let total = 0;
 
-// Gérer l'annulation de la commande
-document.getElementById('cancel-order').addEventListener('click', function() {
-  cartItems = [];
-  updateCart(); // Mettre à jour l'affichage du panier
-});
+  selectedProducts.forEach(product => {
+    const productName = product.querySelector('h2').innerText;
+    const productDescription = product.querySelector('p:nth-child(2)').innerText;
+    const productPrice = parseFloat(product.querySelector('p:nth-child(3)').innerText.replace('$', ''));
+    const quantity = parseInt(product.querySelector('.quantity input').value);
+    const unitPrice = parseFloat(product.querySelector('p:nth-child(5)').innerText.replace('Prix unitaire: $', ''));
+    const totalPrice = quantity * unitPrice;
 
-// Gérer le clic sur le bouton de paiement
-document.getElementById('checkout-btn').addEventListener('click', function() {
-  // Ouvrir la fenêtre modale des modalités de paiement
-  document.getElementById('payment-modal').style.display = 'block';
-});
+    total += totalPrice;
 
-// Gérer la soumission du formulaire de paiement
-document.getElementById('confirm-payment-btn').addEventListener('click', function() {
-  var name = document.getElementById('name').value;
-  var address = document.getElementById('address').value;
-  var phone = document.getElementById('phone').value;
-
-  // Effectuer un traitement supplémentaire ou envoyer les données au serveur
-
-  // Réinitialiser le formulaire de paiement
-  document.getElementById('payment-form').reset();
-
-  // Fermer la fenêtre modale des modalités de paiement
-  document.getElementById('payment-modal').style.display = 'none';
-
-  // Afficher la fenêtre modale de validation de la commande
-  document.getElementById('validation-modal').style.display = 'block';
-});
-
-// Mettre à jour l'affichage du panier
-function updateCart() {
-  var cartItemsElement = document.getElementById('cart-items');
-  cartItemsElement.innerHTML = '';
-
-  for (var i = 0; i < cartItems.length; i++) {
-    var item = cartItems[i];
-
-    var listItem = document.createElement('li');
-    listItem.className = 'list-group-item cart-item';
-    listItem.innerHTML = `
-      <span>${item.name} - $${item.price}</span>
-      <button class="btn btn-link remove-btn" data-index="${i}">Supprimer</button>
+    const cartItem = document.createElement('li');
+    cartItem.innerHTML = `
+      <span class="item-name">${productName} (${quantity}x)</span>
+      <span class="item-price">$${totalPrice.toFixed(2)}</span>
     `;
+    cartItemsContainer.appendChild(cartItem);
+  });
 
-    cartItemsElement.appendChild(listItem);
+  cartTotal.innerText = `Total: $${total.toFixed(2)}`;
+
+  paymentModal.style.display = 'block';
+});
+
+// Écouteur d'événement pour le bouton "Confirmer" dans la fenêtre modale des modalités de paiement
+confirmPaymentButton.addEventListener('click', () => {
+  const name = document.getElementById('name').value;
+  const address = document.getElementById('address').value;
+  const phone = document.getElementById('phone').value;
+  const email = document.getElementById('email').value;
+  const paymentMethod = document.getElementById('payment-method').value;
+  const cardNumber = document.getElementById('card-number').value;
+
+  if (!name || !address || !phone || !email || !cardNumber) {
+    alert('Veuillez remplir tous les champs obligatoires.');
+    return;
   }
-}
+
+  customerNameSpan.innerText = name;
+  customerPhoneSpan.innerText = phone;
+  customerEmailSpan.innerText = email;
+  customerAddressSpan.innerText = address;
+  paymentMethodSpan.innerText = paymentMethod;
+  cardNumberSpan.innerText = cardNumber;
+
+  validationModal.style.display = 'block';
+  paymentModal.style.display = 'none';
+});
+
+// Fermer la fenêtre modale lorsqu'on clique en dehors de celle-ci
+window.addEventListener('click', (event) => {
+  if (event.target === paymentModal) {
+    paymentModal.style.display = 'none';
+  } else if (event.target === validationModal) {
+    validationModal.style.display = 'none';
+  }
+});
+
+// Fermer la fenêtre modale lorsqu'on appuie sur le bouton "Fermer"
+document.querySelectorAll('.close').forEach(closeButton => {
+  closeButton.addEventListener('click', () => {
+    paymentModal.style.display = 'none';
+    validationModal.style.display = 'none';
+  });
+});

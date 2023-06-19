@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Commande en ligne</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Commande en ligne</h1>
+    
+    <!-- Formulaire de commande -->
+    <form id="order-form">
+      <h2>Informations client</h2>
+      <div class="form-group">
+        <label for="first-name">Prénom :</label>
+        <input type="text" id="first-name" required>
+      </div>
+      <div class="form-group">
+        <label for="last-name">Nom :</label>
+        <input type="text" id="last-name" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Adresse :</label>
+        <input type="text" id="address" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Numéro de téléphone :</label>
+        <input type="tel" id="phone" required>
+      </div>
+      
+      <h2>Articles</h2>
+      <div class="product-list">
+        <div class="scrollable-frame">
+          <div class="product-item">
+            <input type="checkbox" id="product1" class="product-checkbox">
+            <label for="product1">
+              <h3>Pizza Margherita</h3>
+              <p>Pizza classique avec sauce tomate, mozzarella et basilic.</p>
+              <p>Prix: $10</p>
+            </label>
+          </div>
+  
+          <div class="product-item">
+            <input type="checkbox" id="product2" class="product-checkbox">
+            <label for="product2">
+              <h3>Pizza Pepperoni</h3>
+              <p>Pizza avec sauce tomate, mozzarella et pepperoni.</p>
+              <p>Prix: $12</p>
+            </label>
+          </div>
+  
+          <!-- Ajoutez autant d'éléments "product-item" que nécessaire pour chaque produit -->
+        </div>
+      </div>
+      
+      <!-- Bouton de soumission de commande -->
+      <button type="submit" class="btn btn-primary">Passer la commande</button>
+    </form>
+    
+    <!-- Panier -->
+    <div id="cart" class="cart">
+      <h2>Panier</h2>
+      <ul id="cart-items"></ul>
+      <div id="cart-total"></div>
+    </div>
+    
+    <!-- Fenêtre modale des modalités de paiement -->
+    <div id="payment-modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modalités de paiement</h5>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form id="payment-form">
+              <div class="form-group">
+                <label for="card-number">Numéro de carte :</label>
+                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+              </div>
+              <div class="form-group">
+                <label for="expiry-date">Date d'expiration :</label>
+                <input type="text" id="expiry-date" placeholder="MM/AA" required>
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV :</label>
+                <input type="text" id="cvv" placeholder="123" required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="confirm-payment-btn">Confirmer</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Fenêtre modale de validation de la commande -->
+    <div id="validation-modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Validation de la commande</h5>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>Merci pour votre commande !</p>
+            <p>Votre commande a été enregistrée et sera préparée dans les plus brefs délais.</p>
+            <p>Voici les détails de votre commande :</p>
+            <ul id="validation-details"></ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body></html>

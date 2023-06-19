@@ -102,28 +102,55 @@
           </header>
 <!-- DÉBUT COMMANDE-->
 
-
-
-
 <div class="container">
-  <h1>Page de commande en ligne</h1>
-  
-  <div class="product-details">
-    <h2>Nom du produit</h2>
-    <p>Description du produit</p>
-    <p>Prix: $X</p>
-    <button id="add-to-cart" class="btn btn-primary">Ajouter au panier</button>
+  <h1>Commande en ligne</h1>
+
+  <div class="product-list">
+    <div class="scrollable-frame">
+      <div class="product-item">
+        <input type="checkbox" id="product1" class="product-checkbox">
+        <label for="product1">
+          <h2>Nom du produit 1</h2>
+          <p>Description du produit 1</p>
+          <p>Prix: $10</p>
+          <div class="quantity">
+            <label for="quantity1">Quantité:</label>
+            <input type="number" id="quantity1" min="1" value="1">
+          </div>
+          <p>Prix unitaire: $10</p>
+          <p>Prix total: $10</p>
+        </label>
+      </div>
+
+      <div class="product-item">
+        <input type="checkbox" id="product2" class="product-checkbox">
+        <label for="product2">
+          <h2>Nom du produit 2</h2>
+          <p>Description du produit 2</p>
+          <p>Prix: $15</p>
+          <div class="quantity">
+            <label for="quantity2">Quantité:</label>
+            <input type="number" id="quantity2" min="1" value="1">
+          </div>
+          <p>Prix unitaire: $15</p>
+          <p>Prix total: $15</p>
+        </label>
+      </div>
+
+      <!-- Ajoutez autant d'éléments "product-item" que nécessaire pour chaque produit -->
+    </div>
   </div>
+
+
+  <div class="cart-details">
+    <h2>Détail du panier</h2>
+    <ul id="cart-items"></ul>
+    <p id="cart-total"></p>
+
   
-  <div class="cart">
-    <h2>Panier</h2>
-    <ul id="cart-items" class="list-group">
-      <!-- Articles ajoutés au panier seront affichés ici -->
-    </ul>
-    <button id="clear-cart" class="btn btn-secondary">Vider le panier</button>
-    <button id="cancel-order" class="btn btn-danger">Annuler la commande</button>
-    <button id="checkout-btn" class="btn btn-success">Paiement</button>
   </div>
+
+  <button class="btn btn-primary add-to-cart">Valider la commande</button>
 
   <!-- Fenêtre modale des modalités de paiement -->
   <div id="payment-modal" class="modal">
@@ -147,6 +174,22 @@
               <label for="phone"><i class="fa fa-phone"></i> Téléphone :</label>
               <input type="text" class="form-control" id="phone" placeholder="Votre numéro de téléphone">
             </div>
+            <div class="form-group">
+              <label for="email"><i class="fa fa-envelope"></i> Email :</label>
+              <input type="email" class="form-control" id="email" placeholder="Votre adresse email">
+            </div>
+            <div class="form-group">
+              <label for="payment-method"><i class="fa fa-credit-card"></i> Moyen de paiement :</label>
+              <select id="payment-method" class="form-control">
+                <option value="credit-card">Carte de crédit</option>
+                <option value="paypal">PayPal</option>
+                <option value="cash">Espèces</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="card-number"><i class="fa fa-credit-card"></i> Numéro de carte :</label>
+              <input type="text" class="form-control" id="card-number" placeholder="Numéro de carte">
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -169,6 +212,14 @@
           <p>Merci pour votre commande !</p>
           <p>Nous avons bien reçu votre paiement et nous préparons votre commande.</p>
           <p>Vous recevrez bientôt une confirmation par e-mail avec les détails de votre commande.</p>
+          <p>Date de commande: DD/MM/YYYY</p>
+          <p>État: En cours de préparation</p>
+          <p>Nom du client: <span id="customer-name"></span></p>
+          <p>Téléphone du client: <span id="customer-phone"></span></p>
+          <p>Email du client: <span id="customer-email"></span></p>
+          <p>Adresse du client: <span id="customer-address"></span></p>
+          <p>Moyen de paiement: <span id="payment-method"></span></p>
+          <p>Numéro de carte: <span id="card-number"></span></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
@@ -177,8 +228,6 @@
     </div>
   </div>
 </div>
-
-
 
 
  <!-- fin de la commande-->
@@ -193,44 +242,40 @@
     </div>
   </div>
   </div>
-  <footer>
-    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="images_the_district(1)/images_the_district/plate-2802332_640.jpg" class="d-block w-100" alt="images_the_district(1)/images_the_district/bg.jpg">
+  <footer class="">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Coordonnées</h3>
+          <ul>
+            <li><i class="bi bi-geo-alt-fill"></i> 123 Rue du District, 75000 Paris</li>
+            <li><i class="bi bi-telephone-fill"></i> +33 1 23 45 67 89</li>
+            <li><i class="bi bi-envelope-fill"></i> info@thedistrict.com</li>
+          </ul>
         </div>
-        <div class="carousel-item">
-          <img src="images_the_district(1)/images_the_district/chef-5993951_640.jpg" class="d-block w-100" alt="images_the_district(1)/images_the_district/bg1.jpeg">
+        <div class="col-md-4">
+          <h3>Horaires</h3>
+          <ul>
+            <li>Lundi - Vendredi: 10h - 22h</li>
+            <li>Samedi - Dimanche: 12h - 23h</li>
+          </ul>
         </div>
-        <div class="carousel-item">
-          <img src="images_the_district(1)/images_the_district/platter-2009590_640.jpg" class="d-block w-100" alt="images_the_district(1)/images_the_district/bg3.jpeg">
+        <div class="col-md-4">
+          <h3>Suivez-nous</h3>
+       <ul class="social-media-icons">
+    <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+  </ul>
+          </div>
         </div>
-      </div>
-  
-      <div class="Social">
-        <a href="https://fr-fr.facebook.com/">
-          <i class="fa-brands fa-facebook fa-spin-pulse"></i>
-        </a>
-        <a href="https://www.instagram.com/">
-          <i class="fa-brands fa-instagram fa-spin-pulse"></i>
-        </a>
-        <a href="https://www.whatsapp.com/">
-          <i class="fa-brands fa-whatsapp fa-spin"></i>
-        </a>
-        <a href="https://www.tiktok.com/fr/">
-          <i class="fa-brands fa-tiktok fa-spin fa-spin-reverse"></i>
-        </a>
       </div>
     </div>
   </footer>
+
   <script src="index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-vhjHXpwpRLpd2d3QbPjbR9y9fBBjyM1Sc2E3o5dFv/N2Cm9QZBdStUabxxyXIfWv"
-    crossorigin="anonymous"></script>
-    
 </body>
-
-</html>>
+</html>
