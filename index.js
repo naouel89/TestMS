@@ -92,3 +92,68 @@ document.querySelectorAll('.close').forEach(closeButton => {
     validationModal.style.display = 'none';
   });
 });
+
+// séléction du burger
+
+         // Sélection des liens des burgers
+    const burgerLinks = document.querySelectorAll(".burger-link");
+
+    // Tableau pour stocker les détails des burgers
+    const burgerDetails = [
+      { 
+        name: "CheeseBurgers",
+        price: 5.99,
+        description: "Un délicieux burger garni de fromage fondant."
+      },
+      { 
+        name: "DoubleBurgers",
+        price: 7.99,
+        description: "Un burger double garni de viande savoureuse."
+      },
+      { 
+        name: "Burgers 3",
+        price: 6.49,
+        description: "Un trio de burgers aux saveurs uniques."
+      },
+      { 
+        name: "Double Steak Burgers",
+        price: 8.99,
+        description: "Deux steaks juteux dans un seul burger."
+      },
+      { 
+        name: "Geante Burgers",
+        price: 9.99,
+        description: "Un burger géant pour les plus gros appétits."
+      },
+      { 
+        name: "Burgers 6",
+        price: 7.49,
+        description: "Six mini burgers aux goûts variés."
+      }
+    ];
+
+    // Ajouter un écouteur d'événement à chaque lien de burger
+    burgerLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        // Récupérer le nom du burger depuis l'attribut "data-burger"
+        const burgerName = link.getAttribute("data-burger");
+
+        // Rechercher les détails du burger correspondant
+        const burger = burgerDetails.find((burger) => burger.name === burgerName);
+
+        // Afficher les détails du burger sélectionné
+        const burgerDetailsContainer = document.getElementById("burger-details");
+        burgerDetailsContainer.innerHTML = `
+          <div class="burger-details-frame">
+            <h2>${burger.name}</h2>
+            <p>${burger.description}</p>
+            <p>Prix : ${burger.price.toFixed(2)} €</p>
+          </div>
+        `;
+
+        // Afficher la section des détails des burgers
+        burgerDetailsContainer.style.display = "block";
+      });
+    });
