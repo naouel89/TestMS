@@ -64,12 +64,6 @@
   }
 }
 
-/* Styles pour la section de parallaxe */
-.parallax-container {
-  position: relative;
-  height: 400px; /* Ajustez la hauteur selon vos besoins */
-  overflow: hidden;
-}
 
 /* Styles pour les catégories */
 .category-container {
@@ -112,8 +106,9 @@
 }
 
 .nav {
-  display: flex;
+  
   justify-content: center;
+  position: fixed;
 }
 
 .video-container {

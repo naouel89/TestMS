@@ -16,6 +16,7 @@
 
 <body>
   <header>
+    
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">The District</a>
@@ -115,10 +116,13 @@
           
             <p>Prix: 5.99 €</p>
             <p>Description: Un délicieux burger garni de fromage fondant.</p>
-            <a href="#" class="btn btn-primary">ajouter</a>
+            <a href="#" class="btn btn-primary" onclick="addToCart(event)">Ajouter</a>
+
           </div>
         
       </div>
+ 
+
       <div class="col-md-4">
         <div class="category">
           <a class="burger-link" href="#" data-burger="DoubleBurgers">
@@ -128,7 +132,7 @@
           
             <p>Prix: 7.99 €</p>
             <p>Description: Un burger double garni de viande savoureuse.</p>
-            <a href="#" class="btn btn-primary">ajouter</a>
+            <a href="#" class="btn btn-primary" onclick="addToCart(event)">Ajouter</a>
           </div>
 
          </div>
@@ -141,7 +145,7 @@
         
             <p>Prix: 6.49 €</p>
             <p>Description: Un trio de burgers aux saveurs uniques.</p>
-            <a href="#" class="btn btn-primary">ajouter</a>
+            <a href="#" class="btn btn-primary" onclick="addToCart(event)">Ajouter</a>
         </div>
       </div>
     </div>
@@ -155,7 +159,7 @@
         
             <p>Prix: 8.99  </p>
             <p>Description: Deux steaks juteux dans un seul burger.</p>
-            <a href="#" class="btn btn-primary">ajouter</a>
+            <a href="#" class="btn btn-primary" onclick="addToCart(event)">Ajouter</a>
           </div>
         
       </div>
@@ -168,7 +172,7 @@
         
             <p>Prix: 9.99 €</p>
             <p>Description: Un burger géant pour les plus gros appétits.</p>
-            <a href="#" class="btn btn-primary">ajouter</a>
+            <a href="#" class="btn btn-primary" onclick="addToCart(event)">Ajouter</a>
           </div>
         
       </div>
@@ -181,7 +185,7 @@
         
             <p>Prix: 7.49 €</p>
             <p>Description: Six mini burgers aux goûts variés.</p>
-            <a href="#" class="btn btn-primary">ajouter</a>
+            <a href="#" class="btn btn-primary" onclick="addToCart(event)">Ajouter</a>
           </div>
         
       </div>
@@ -233,7 +237,39 @@
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
 
-  
+    <script>
+function addToCart(event) {
+  event.preventDefault(); // Empêche le comportement par défaut du lien
+
+  // Récupère le bouton cliqué
+  var button = event.target;
+
+  // Récupère le titre et le prix à partir des éléments correspondants dans le parent du bouton
+  var categoryDiv = button.parentNode;
+  var title = categoryDiv.querySelector("h3").textContent;
+  var price = categoryDiv.querySelector("p:nth-of-type(1)").textContent;
+
+  // Supprime le texte "Prix: " et le symbole de l'euro du prix, puis le parse en tant que nombre
+  price = parseFloat(price.replace("Prix: ", "").replace("€", ""));
+
+  // Récupère le prix total du panier actuel
+  var cartPriceElement = document.getElementById("cart-price");
+  var cartPrice = parseFloat(cartPriceElement.textContent);
+
+  // Calcule le nouveau prix total du panier en ajoutant le prix de l'article
+  var newCartPrice = cartPrice + price;
+
+  // Met à jour l'affichage du prix total du panier
+  cartPriceElement.textContent = newCartPrice.toFixed(2) + "€";
+
+  // Effectue toute autre opération logique nécessaire pour ajouter l'article au panier
+  // ...
+
+  alert ("Article ajouté au panier :", title, price);
+}
+
+      </script>
+      
   
 </body>
 </html>

@@ -1,3 +1,4 @@
+// PAGE CONTACT
 // Récupération des éléments HTML
 const productCheckboxes = document.querySelectorAll('.product-checkbox');
 const addToCartButton = document.querySelector('.add-to-cart');
@@ -93,67 +94,60 @@ document.querySelectorAll('.close').forEach(closeButton => {
   });
 });
 
-// séléction du burger
 
-         // Sélection des liens des burgers
-    const burgerLinks = document.querySelectorAll(".burger-link");
 
-    // Tableau pour stocker les détails des burgers
-    const burgerDetails = [
-      { 
-        name: "CheeseBurgers",
-        price: 5.99,
-        description: "Un délicieux burger garni de fromage fondant."
-      },
-      { 
-        name: "DoubleBurgers",
-        price: 7.99,
-        description: "Un burger double garni de viande savoureuse."
-      },
-      { 
-        name: "Burgers 3",
-        price: 6.49,
-        description: "Un trio de burgers aux saveurs uniques."
-      },
-      { 
-        name: "Double Steak Burgers",
-        price: 8.99,
-        description: "Deux steaks juteux dans un seul burger."
-      },
-      { 
-        name: "Geante Burgers",
-        price: 9.99,
-        description: "Un burger géant pour les plus gros appétits."
-      },
-      { 
-        name: "Burgers 6",
-        price: 7.49,
-        description: "Six mini burgers aux goûts variés."
-      }
-    ];
+    // ARTICLE PRIX COMMANDE
 
-    // Ajouter un écouteur d'événement à chaque lien de burger
-    burgerLinks.forEach((link) => {
-      link.addEventListener("click", (event) => {
-        event.preventDefault();
+    // Fonction pour récupérer les articles du panier depuis le localStorage
+function getCartItems() {
+  var cartItems = localStorage.getItem('cartItems');
+  return cartItems ? JSON.parse(cartItems) : [];
+}
 
-        // Récupérer le nom du burger depuis l'attribut "data-burger"
-        const burgerName = link.getAttribute("data-burger");
+// Fonction pour enregistrer les articles du panier dans le localStorage
+function saveCartItems(cartItems) {
+  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+}
 
-        // Rechercher les détails du burger correspondant
-        const burger = burgerDetails.find((burger) => burger.name === burgerName);
+// Fonction pour ajouter un article au panier
+function addToCart(event) {
+  // ...
+  // Effectuez les opérations nécessaires pour ajouter l'article au panier
 
-        // Afficher les détails du burger sélectionné
-        const burgerDetailsContainer = document.getElementById("burger-details");
-        burgerDetailsContainer.innerHTML = `
-          <div class="burger-details-frame">
-            <h2>${burger.name}</h2>
-            <p>${burger.description}</p>
-            <p>Prix : ${burger.price.toFixed(2)} €</p>
-          </div>
-        `;
+  // Ajoutez l'article au tableau des articles du panier
+  var cartItems = getCartItems();
+  cartItems.push({ title: title, price: price });
+  saveCartItems(cartItems);
 
-        // Afficher la section des détails des burgers
-        burgerDetailsContainer.style.display = "block";
-      });
-    });
+  // ...
+}
+
+// Fonction pour afficher le panier sur la page de commande
+function displayCart() {
+  var cartItems = getCartItems();
+  var cartItemsElement = document.getElementById('cart-items');
+  var cartPriceElement = document.getElementById('cart-price');
+
+  // Affiche les articles du panier
+  cartItemsElement.innerHTML = '';
+  cartItems.forEach(function(item) {
+    var li = document.createElement('li');
+    li.textContent = item.title + ' - ' + item.price.toFixed(2) + '€';
+    cartItemsElement.appendChild(li);
+  });
+
+  // Calcule et affiche le prix total du panier
+  var cartPrice = cartItems.reduce(function(total, item) {
+    return total + item.price;
+  }, 0);
+  cartPriceElement.textContent = cartPrice.toFixed(2) + '€';
+}
+
+// Appel de la fonction displayCart lorsque la page de commande est chargée
+window.onload = function() {
+  displayCart();
+};
+// TEST accueil, produit, panier, admin
+
+//
+

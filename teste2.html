@@ -1,210 +1,82 @@
-<!DOCTYPE html>
-<html lang="fr">
+<div class="container">
+  <h2>Votre commande</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Produit</th>
+        <th>Prix</th>
+        <th>Quantité</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="cart-items">
+      <!-- Les produits ajoutés au panier seront insérés ici -->
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" class="text-end"><strong>Total :</strong></td>
+        <td id="cart-total">0.00 €</td>
+      </tr>
+    </tfoot>
+  </table>
+  <a href="#" class="btn btn-primary" onclick="checkout()">Passer la commande</a>
+</div>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The District - Nos Burgers</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    integrity="sha384-3pS8KrRpx6XOu96iRo8Rwv+nbUjFyc8AepPis0NXGzpxI4jncpeK+PdjNCkZl0cc"
-    crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-YV1jprSNVj0+Lyzq1ylRq5z5gUDLBrh7AZkmqHJFdZzJHxUayQVK56Rv3BrMqTtJeyf4nS2KfoZexrkQj0KClA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="index.css">
-</head>
+<script>
+  var cartItems = []; // Tableau pour stocker les produits ajoutés au panier
 
-<body>
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <a class="navbar-brand" href="Home.html">The District</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="Home.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="Contact.html">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="Categorie.html">Catégorie</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="NosBurger.html">Nos Burgers</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <div class="container">
-    <h1 class="mt-5">Panier</h1>
-    
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <div class="card mb-3">
-          <div class="card-body">
-            <h2 class="card-title">Burger 1</h2>
-            <p class="card-text">Quantité : <span class="quantity-value">0</span></p>
-            <button class="btn btn-primary minus-btn" data-burger="burger1">-</button>
-            <button class="btn btn-primary plus-btn" data-burger="burger1">+</button>
-            <button class="btn btn-success add-to-cart" data-burger="burger1">Ajouter au panier</button>
-            <button class="btn btn-danger remove-from-cart" data-burger="burger1">Supprimer</button>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-md-6">
-        <div class="card mb-3">
-          <div class="card-body">
-            <h2 class="card-title">Burger 2</h2>
-            <p class="card-text">Quantité : <span class="quantity-value">0</span></p>
-            <button class="btn btn-primary minus-btn" data-burger="burger2">-</button>
-            <button class="btn btn-primary plus-btn" data-burger="burger2">+</button>
-            <button class="btn btn-success add-to-cart" data-burger="burger2">Ajouter au panier</button>
-            <button class="btn btn-danger remove-from-cart" data-burger="burger2">Supprimer</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Ajoutez autant de "col-md-6" que nécessaire pour d'autres éléments de burger -->
-      
-    </div>
-    
-    <div class="mt-4">
-      <h2>Détail de la commande</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Burger</th>
-            <th scope="col">Quantité</th>
-          </tr>
-        </thead>
-        <tbody id="order-detail">
-          <!-- Le contenu du détail de la commande sera ajouté dynamiquement via JavaScript -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <h3>Horaires d'ouverture</h3>
-          <p>Lundi - Vendredi: 11h00 - 22h00</p>
-          <p>Samedi - Dimanche: 10h00 - 23h00</p>
-        </div>
-        <div class="col-md-6">
-          <h3>Adresse</h3>
-          <p>123 Rue des Burgers</p>
-          <p>75000 Paris, France</p>
-        </div>
-      </div>
-    </div>
-  </footer>
+  function addToCart(event) {
+    event.preventDefault();
+    var burgerLink = event.target.closest('.burger-link');
+    var burgerName = burgerLink.getAttribute('data-burger');
+    var burgerPrice = burgerLink.querySelector('p').innerText.split(':')[1].trim();
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-lu7EaJJhAHx2lZs/y3nFdm03zUzKd5A2raPwh4phExD5N/pM2P2Fv1MfO2sZlW5b"
-    crossorigin="anonymous"></script>
-  <script src="index.js"></script>
-  <script>
-    // Sélectionner tous les boutons "Ajouter au panier"
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    
-    // Sélectionner tous les boutons "Supprimer"
-    const removeFromCartButtons = document.querySelectorAll('.remove-from-cart');
-    
-    // Sélectionner tous les boutons de quantité
-    const minusButtons = document.querySelectorAll('.minus-btn');
-    const plusButtons = document.querySelectorAll('.plus-btn');
-    const quantityValues = document.querySelectorAll('.quantity-value');
-    
-    // Écouter les événements de clic sur les boutons "Ajouter au panier"
-    addToCartButtons.forEach(button => {
-      button.addEventListener('click', addToCart);
+    // Ajouter le produit au tableau du panier
+    cartItems.push({
+      name: burgerName,
+      price: parseFloat(burgerPrice)
     });
-    
-    // Écouter les événements de clic sur les boutons "Supprimer"
-    removeFromCartButtons.forEach(button => {
-      button.addEventListener('click', removeFromCart);
-    });
-    
-    // Écouter les événements de clic sur les boutons de quantité
-    minusButtons.forEach(button => {
-      button.addEventListener('click', decreaseQuantity);
-    });
-    
-    plusButtons.forEach(button => {
-      button.addEventListener('click', increaseQuantity);
-    });
-    
-    // Fonction pour ajouter un article au panier
-    function addToCart(event) {
-      const burger = event.target.getAttribute('data-burger');
-      const quantity = getQuantityValue(burger);
-      
-      // Ajouter la logique pour ajouter l'article au panier
-      
-      // Mettre à jour l'affichage du panier
-      updateCartDisplay();
-    }
-    
-    // Fonction pour supprimer un article du panier
-    function removeFromCart(event) {
-      const burger = event.target.getAttribute('data-burger');
-      
-      // Ajouter la logique pour supprimer l'article du panier
-      
-      // Mettre à jour l'affichage du panier
-      updateCartDisplay();
-    }
-    
-    // Fonction pour diminuer la quantité d'un article
-    function decreaseQuantity(event) {
-      const burger = event.target.getAttribute('data-burger');
-      const quantity = getQuantityValue(burger);
-      
-      if (quantity > 0) {
-        setQuantityValue(burger, quantity - 1);
-      }
-    }
-    
-    // Fonction pour augmenter la quantité d'un article
-    function increaseQuantity(event) {
-      const burger = event.target.getAttribute('data-burger');
-      const quantity = getQuantityValue(burger);
-      
-      setQuantityValue(burger, quantity + 1);
-    }
-    
-    // Fonction pour obtenir la valeur de quantité d'un article
-    function getQuantityValue(burger) {
-      const quantityElement = document.querySelector(`[data-burger="${burger}"] .quantity-value`);
-      return parseInt(quantityElement.textContent);
-    }
-    
-    // Fonction pour définir la valeur de quantité d'un article
-    function setQuantityValue(burger, value) {
-      const quantityElement = document.querySelector(`[data-burger="${burger}"] .quantity-value`);
-      quantityElement.textContent = value;
-    }
-    
-    // Fonction pour mettre à jour l'affichage du panier
-    function updateCartDisplay() {
-      // Ajouter la logique pour mettre à jour l'affichage du panier avec les articles ajoutés/supprimés
-    }
-    
-    // Calculer le total de la commande
-    function calculateTotal() {
-      // Ajouter la logique pour calculer le total de la commande
-    }
-  </script>
-</body>
 
-</html>
+    // Mettre à jour l'affichage du panier
+    displayCartItems();
+  }
+
+  function displayCartItems() {
+    var cartItemsContainer = document.getElementById('cart-items');
+    var cartTotal = document.getElementById('cart-total');
+
+    cartItemsContainer.innerHTML = ''; // Réinitialiser la liste des produits du panier
+    var total = 0;
+
+    cartItems.forEach(function(item) {
+      var row = document.createElement('tr');
+      var nameCell = document.createElement('td');
+      nameCell.textContent = item.name;
+      row.appendChild(nameCell);
+
+      var priceCell = document.createElement('td');
+      priceCell.textContent = item.price.toFixed(2) + ' €';
+      row.appendChild(priceCell);
+
+      var quantityCell = document.createElement('td');
+      quantityCell.textContent = '1';
+      row.appendChild(quantityCell);
+
+      var totalCell = document.createElement('td');
+      totalCell.textContent = item.price.toFixed(2) + ' €';
+      row.appendChild(totalCell);
+
+      cartItemsContainer.appendChild(row);
+
+      total += item.price;
+    });
+
+    cartTotal.textContent = total.toFixed(2) + ' €';
+  }
+
+  function checkout() {
+    // Effectuer l'action de paiement ou rediriger vers la page de paiement
+    // ... (votre code de traitement de paiement ici)
+    alert('Passer à la page de paiement');
+  }
+</script>
