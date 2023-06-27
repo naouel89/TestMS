@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panier</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h2>Votre panier</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Produit</th>
+          <th>Prix</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="panier">
+        <!-- Les produits ajoutés au panier seront insérés ici -->
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total :</th>
+          <td id="total">0</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="form-group">
+      <label for="cat">Sélectionnez un produit :</label>
+      <select class="form-control" id="cat">
+        <!-- Les options du catalogue seront générées dynamiquement ici -->
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="ajouter()">Ajouter au panier</button>
+  </div>
+
+  <script>
+    var catalogue = [];
+    catalogue.push(new Produit(1, "ordinateur", 200));
+    catalogue.push(new Produit(2, "souris", 20));
+    catalogue.push(new Produit(3, "unité centrale", 620));
+    var panier = getBasket();
+
+    function remplirCatalogue() {
+      var cat = document.getElementById('cat');
+      for (var i in catalogue) {
+        var e = document.createElement("option");
+        e.value = i;
+        var txt = document.createTextNode(catalogue[i].designation);
+        e.appendChild(txt);
+        cat.appendChild(e);
+      }
+    }
+
+    function ajouterCase(parent, txt) {
+      var e = document.createElement("td");
+      e.appendChild(document.createTextNode(txt));
+      parent.appendChild(e);
+    }
+
+    function calculerTotal() {
+      var tot = 0;
+      for (var p in panier) {
+        tot += panier[p].prix;
+      }
+      return tot.toFixed(2) + " €";
+    }
+
+    function ajouter() {
+      var cat = document.getElementById('cat');
+      var sel = cat.options[cat.selectedIndex].value;
+      var prod = catalogue[sel];
+      panier.push(prod);
+      saveBasket(panier);
+
+      var panierContainer = document.getElementById("panier");
+      var ligne = document.createElement("tr");
+
+      var celluleProduit = document.createElement("td");
+      celluleProduit.appendChild(document.createTextNode(prod.designation));
+      ligne.appendChild(celluleProduit);
+
+      var cellulePrix = document.createElement("td");
+      cellulePrix.appendChild(document.createTextNode(prod.prix.toFixed(2) + " €"));
+      ligne.appendChild(cellulePrix);
+
+      var celluleSupprimer = document.createElement("td");
+      var boutonSupprimer = document.createElement("button");
+      boutonSupprimer.setAttribute("class", "btn btn-danger btn-sm");
+      boutonSupprimer.setAttribute("onclick", "supprimerProduit(this)");
+      boutonSupprimer.appendChild(document.createTextNode("Supprimer"));
+      celluleSupprimer.appendChild(boutonSupprimer);
+      ligne.appendChild(celluleSupprimer);
+
+      panierContainer.appendChild(ligne);
+
+      document.getElementById("total").innerHTML = calculerTotal();
+    }
+
+    function supprimerProduit(button) {
+      var row = button.parentNode.parentNode;
+      var index = Array.prototype.indexOf.call(row.parentNode.rows, row);
+      panier.splice(index, 1);
+      saveBasket(panier);
+      row.remove();
+      document.getElementById("total").innerHTML = calculerTotal();
+    }
+
+    function saveBasket(basket) {
+      localStorage.setItem("basket", JSON.stringify(basket));
+    }
+
+    function getBasket() {
+      var basket = localStorage.getItem("basket");
+      if (basket == null) {
+        return [];
+      } else {
+        return JSON.parse(basket);
+      }
+    }
+
+    function Produit(id, designation, prix) {
+      this.id = id;
+      this.prix = prix;
+      this.designation = designation;
+      this.toString = function () {
+        return this.designation + " " + prix;
+      };
+    }
+
+    window.onload = function () {
+      remplirCatalogue();
+      document.getElementById("total").innerHTML = calculerTotal();
+      var panierContainer = document.getElementById("panier");
+      for (var i in panier) {
+        var prod = panier[i];
+        var ligne = document.createElement("tr");
+        ajouterCase(ligne, prod.designation);
+        ajouterCase(ligne, prod.prix.toFixed(2) + " €");
+
+        var celluleSupprimer = document.createElement("td");
+        var boutonSupprimer = document.createElement("button");
+        boutonSupprimer.setAttribute("class", "btn btn-danger btn-sm");
+        boutonSupprimer.setAttribute("onclick", "supprimerProduit(this)");
+        boutonSupprimer.appendChild(document.createTextNode("Supprimer"));
+        celluleSupprimer.appendChild(boutonSupprimer);
+        ligne.appendChild(celluleSupprimer);
+
+        panierContainer.appendChild(ligne);
+      }
+    };
+  </script>
+</body>
+
+</html>

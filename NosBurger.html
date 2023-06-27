@@ -191,6 +191,7 @@
       </div>
     </div>
   </div>
+  
   <div class="parallax-container">
 
     <div class="nav">
@@ -267,7 +268,158 @@ function addToCart(event) {
 
   alert ("Article ajouté au panier :", title, price);
 }
+//test
 
+   // Attendre que le document soit chargé
+document.addEventListener('DOMContentLoaded', function () {
+  // Sélectionner les boutons "Ajouter au panier"
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  
+  // Sélectionner les boutons "Diminuer la quantité"
+  const decreaseQuantityButtons = document.querySelectorAll('.quantity-control.decrease');
+  
+  // Sélectionner les boutons "Augmenter la quantité"
+  const increaseQuantityButtons = document.querySelectorAll('.quantity-control.increase');
+  
+  // Sélectionner la liste des articles du panier
+  const cartItems = document.querySelector('.cart-items ul');
+  
+  // Sélectionner les détails du panier
+  const cartDetails = document.querySelector('.cart-details tbody');
+  
+  // Sélectionner l'élément affichant le prix total du panier
+  const cartTotalPriceElement = document.getElementById('cart-total-price');
+  
+  // Variable pour stocker le prix total du panier
+  let totalPrice = 0;
+
+  // Ajouter un gestionnaire d'événements pour chaque bouton "Ajouter au panier"
+  addToCartButtons.forEach(function (button, index) {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      // Récupérer les informations de l'article à ajouter au panier
+      const burger = button.closest('.category');
+      const burgerName = burger.querySelector('h3').textContent;
+      const burgerPrice = parseFloat(burger.querySelector('p').textContent.split(':')[1]);
+      const burgerQuantity = parseInt(burger.querySelector('.quantity-input').value);
+
+      // Créer un élément de liste pour afficher l'article dans le panier
+      const cartItem = document.createElement('li');
+      cartItem.innerHTML = `
+        <div class="cart-item">
+          <span>${burgerName}</span>
+          <div class="cart-item-controls">
+            <button class="btn btn-sm btn-danger remove-item">Supprimer</button>
+          </div>
+          <div class="cart-item-details">
+            <span class="item-quantity">${burgerQuantity}</span>
+            <span class="item-price">${burgerPrice.toFixed(2)} €</span>
+            <span class="item-subtotal">${(burgerPrice * burgerQuantity).toFixed(2)} €</span>
+          </div>
+        </div>
+      `;
+
+      // Ajouter un gestionnaire d'événements au bouton "Supprimer" de l'article du panier
+      const removeItemButton = cartItem.querySelector('.remove-item');
+      removeItemButton.addEventListener('click', function () {
+        cartItems.removeChild(cartItem);
+        updateCartTotal(-burgerPrice * burgerQuantity);
+        updateCartDetails();
+      });
+
+      // Ajouter l'article au panier
+      cartItems.appendChild(cartItem);
+
+      // Mettre à jour le prix total du panier
+      totalPrice += burgerPrice * burgerQuantity;
+      updateCartTotal(burgerPrice * burgerQuantity);
+      updateCartDetails();
+    });
+  });
+
+  // Ajouter un gestionnaire d'événements pour chaque bouton "Diminuer la quantité"
+  decreaseQuantityButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      // Obtenir l'élément de saisie de la quantité associée
+      const quantityInput = button.parentNode.querySelector('.quantity-input');
+      let quantity = parseInt(quantityInput.value);
+      
+      // Diminuer la quantité si elle est supérieure à 1
+      if (quantity > 1) {
+        quantity--;
+        quantityInput.value = quantity;
+      }
+    });
+  });
+
+  // Ajouter un gestionnaire d'événements pour chaque bouton "Augmenter la quantité"
+  increaseQuantityButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      // Obtenir l'élément de saisie de la quantité associée
+      const quantityInput = button.parentNode.querySelector('.quantity-input');
+      let quantity = parseInt(quantityInput.value);
+      
+      // Augmenter la quantité
+      quantity++;
+      quantityInput.value = quantity;
+    });
+  });
+
+  // Mettre à jour le prix total du panier
+  function updateCartTotal(price) {
+    totalPrice += price;
+    cartTotalPriceElement.textContent = totalPrice.toFixed(2) + ' €';
+  }
+
+  // Mettre à jour les détails du panier
+  function updateCartDetails() {
+    cartDetails.innerHTML = '';
+
+    // Récupérer la liste des articles du panier
+    const cartItemsList = cartItems.querySelectorAll('.cart-item');
+
+    // Parcourir chaque article du panier
+    cartItemsList.forEach(function (cartItem) {
+      // Récupérer les informations de l'article
+      const itemName = cartItem.querySelector('span').textContent;
+      const itemQuantity = cartItem.querySelector('.item-quantity').textContent;
+      const itemPrice = parseFloat(cartItem.querySelector('.item-price').textContent);
+      const itemSubtotal = parseFloat(cartItem.querySelector('.item-subtotal').textContent);
+
+      // Créer une ligne de détails pour l'article
+      const cartDetailRow = document.createElement('tr');
+      cartDetailRow.innerHTML = `
+        <td>${itemName}</td>
+        <td>${itemQuantity}</td>
+        <td>${itemPrice.toFixed(2)} €</td>
+        <td>${itemSubtotal.toFixed(2)} €</td>
+        <td>
+          <button class="btn btn-sm btn-danger remove-item-details">Supprimer</button>
+        </td>
+      `;
+
+      // Ajouter un gestionnaire d'événements au bouton "Supprimer" de l'article dans les détails du panier
+      const removeItemButton = cartDetailRow.querySelector('.remove-item-details');
+      removeItemButton.addEventListener('click', function () {
+        // Supprimer l'article du panier
+        cartItemsList.forEach(function (item) {
+          if (item.querySelector('span').textContent === itemName) {
+            cartItems.removeChild(item);
+          }
+        });
+
+        // Mettre à jour le prix total du panier
+        updateCartTotal(-itemSubtotal);
+        updateCartDetails();
+      });
+
+      // Ajouter la ligne de détails à la liste des détails du panier
+      cartDetails.appendChild(cartDetailRow);
+    });
+  }
+});
+  
       </script>
       
   
