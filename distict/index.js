@@ -149,5 +149,5 @@ window.onload = function() {
 };
 // TEST accueil, produit, panier, admin
 
-//
+//on fais le test panier
 

@@ -165,14 +165,7 @@ footer ul li {
   height: auto;
 }
 
-.image-3d {
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease-in-out;
-}
 
-.image-3d:hover {
-  transform: rotateY(45deg);
-}
 
 /* Effet de zoom sur la page d'accueil */
 .featured-item {
