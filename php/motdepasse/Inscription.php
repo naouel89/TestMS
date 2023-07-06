@@ -4,7 +4,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $prenom = $_POST["prenom"];
     $dateNaissance = $_POST["date_naissance"];
     $email = $_POST["email"];
-    $password = $_POST["password"];
+    $motDePasse = $_POST["mot_de_passe"];
     $confirmationMotDePasse = $_POST["confirmation_mot_de_passe"];
     $adresse = $_POST["adresse"];
 
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             fwrite($fichier, $ligne);
             fclose($fichier);
             echo "Inscription réussie !";
-            header("Location: login_form.php");
+            header("Location: login_script.php");
             } else {
             echo "Une erreur s'est produite lors de l'ouverture du fichier.";
         }

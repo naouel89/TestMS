@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         fclose($fichier);
 
         if ($utilisateurTrouve) {
-            header('Location: page_protegee.php');
+            header('Location: page.php');
             exit();
         } else {
             echo "Identifiants incorrects. Veuillez réessayer.";
@@ -32,3 +32,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connexion</title>
+</head>
+<body>
+    <h1>Connexion</h1>
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="email">Email :</label>
+        <input type="email" name="email" required><br>
+
+        <label for="mot_de_passe">Mot de passe :</label>
+        <input type="password" name="mot_de_passe" required><br>
+
+        <input type="submit" value="Se connecter">
+    </form>
+</body>
+</html>
