@@ -1,9 +1,11 @@
 <?php
+
+
 session_start();
 
-// Vérifier si l'utilisateur est authentifié
-if (!isset($_SESSION["auth"]) || $_SESSION["auth"] !== "ok") {
-    header("Location: login_form.php"); // Rediriger vers la page de connexion
+// Vérification de l'authentification
+if (!isset($_SESSION['auth']) || $_SESSION['auth'] != 'ok') {
+    header('Location: login_form.php'); // Redirection vers la page de connexion
     exit();
 }
 ?>
@@ -13,7 +15,8 @@ if (!isset($_SESSION["auth"]) || $_SESSION["auth"] !== "ok") {
     <title>Page protégée</title>
 </head>
 <body>
-    <h2>Bienvenue sur la page protégée</h2>
-    <p>Cette page n'est accessible qu'aux utilisateurs authentifiés.</p>
+    <h1>Page protégée</h1>
+    <p>Bienvenue sur la page protégée.</p>
+    <p><a href="logout.php">Se déconnecter</a></p>
 </body>
 </html>

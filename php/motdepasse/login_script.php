@@ -1,23 +1,34 @@
 <?php
-session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST["email"];
+    $motDePasse = $_POST["mot_de_passe"];
 
-// Vérifier si les données du formulaire ont été soumises
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Vérifier les identifiants
-    $login = $_POST["login"];
-    $password = $_POST["password"];
+    // Vérifier les informations d'identification dans le fichier utilisateurs.txt
+    $fichier = fopen("utilisateurs.txt", "r");
+    $utilisateurTrouve = false;
 
-    // Vérifier si les identifiants sont corrects
-    if ($login === "admin" && $password === "admin") {
-        // Initialiser la variable de session
-        $_SESSION["auth"] = "ok";
-        header("Location: page_protegee.php"); // Rediriger vers la page protégée
-        exit();
+    if ($fichier) {
+        while (($ligne = fgets($fichier)) !== false) {
+            $infosUtilisateur = explode(",", $ligne);
+            $emailEnregistre = trim($infosUtilisateur[3]);
+            $motDePasseEnregistre = trim($infosUtilisateur[4]);
+
+            if ($emailEnregistre === $email && $motDePasseEnregistre === $motDePasse) {
+                $utilisateurTrouve = true;
+                break;
+            }
+        }
+
+        fclose($fichier);
+
+        if ($utilisateurTrouve) {
+            header('Location: page_protegee.php');
+            exit();
+        } else {
+            echo "Identifiants incorrects. Veuillez réessayer.";
+        }
     } else {
-        // Identifiants incorrects, détruire la variable de session
-        unset($_SESSION["auth"]);
-        header("Location: login_form.php"); // Rediriger vers la page de connexion
-        exit();
+        echo "Une erreur s'est produite lors de l'ouverture du fichier.";
     }
 }
 ?>
